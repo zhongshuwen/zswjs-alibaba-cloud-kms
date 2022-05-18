@@ -30,25 +30,25 @@ export class AlibabaCloudKMSignatureProvider implements SignatureProvider {
     private clientConfig : Core;
     private keyCacheTime : number;
     private region : string;
-    constructor(inClientConfig: Core.Config, region: string,  keyIds: AlibabaCloudKMSKeyInput[] = [], keyCacheTime: number = -1){
+    constructor(inClientConfig: Core.Config, region: string,  keys: AlibabaCloudKMSKeyInput[] = [], keyCacheTime: number = -1){
         this.clientConfig = new Core(inClientConfig);
         this.region = region;
 
-        this.unprocessedKeys = new Set(keyIds.map(x=>x.KeyId+x.KeyVersionId));
+        this.unprocessedKeys = new Set(keys.map(x=>x.KeyId+x.KeyVersionId));
         this.keyCacheTime = keyCacheTime;
     }
 
-    public async addKeyByIdToCache(keyId: AlibabaCloudKMSKeyInput){
-        const zswPublicKeyString = await getZSWPublicKeyStringForAlibabaKMSKeyId(this.clientConfig, this.region, keyId.KeyId, keyId.KeyVersionId);
+    public async addKeyByIdToCache(key: AlibabaCloudKMSKeyInput){
+        const zswPublicKeyString = await getZSWPublicKeyStringForAlibabaKMSKeyId(this.clientConfig, this.region, key.KeyId, key.KeyVersionId);
         this.keyToIdCache.set(zswPublicKeyString, <KeyProviderCachedKey>{
-            KeyId: keyId.KeyId,
-            KeyVersionId: keyId.KeyVersionId,
+            KeyId: key.KeyId,
+            KeyVersionId: key.KeyVersionId,
             ZswChainPublicKeyString: zswPublicKeyString,
             CacheExpireTime: Date.now() + this.keyCacheTime,
         });
     }
-    public addKeyById(keyId: string){
-        this.unprocessedKeys.add(keyId);
+    public addKeyById(key: AlibabaCloudKMSKeyInput){
+        this.unprocessedKeys.add(key.KeyId+key.KeyVersionId);
     }
 
     /** Public keys that the `SignatureProvider` holds */
