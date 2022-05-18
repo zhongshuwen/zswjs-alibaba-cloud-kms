@@ -19,13 +19,9 @@ function signTransactionDemo() {
   const regionId = 'cn-hangzhou';
   const keys = [
     {
-      "KeyId": "f98ddf0b-8ec0-4a46-9c94-233f08f897ea",
-      "KeyVersionId": "43d9535f-09df-425f-b5a6-63d77756c891",
+      "KeyId": "<your-key-id>",
+      "KeyVersionId": "<your-key-version-id>",
     },
-    {
-      "KeyId": "bf2e73d3-aeb8-4325-b1f1-8bbd681742bb",
-      "KeyVersionId": "a1b2b01a-8f68-438f-badc-5cd9902556e0",
-    }
   ];
   const signatureProvider = new AlibabaCloudKMSignatureProvider(
     clientConfig,
