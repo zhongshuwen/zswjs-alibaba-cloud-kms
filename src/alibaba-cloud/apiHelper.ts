@@ -25,7 +25,7 @@ function signDigestAlibabaKMS(client: Core, regionId: string, keyId: string, key
     "Algorithm": "SM2DSA",
     "Digest": digestBase64,
   };
-  return client.request('GetPublicKey', params, {
+  return client.request('AsymmetricSign', params, {
     method: 'POST'
   }).then((response: any)=>{
     if(response && typeof response.Value === 'string' && response.Value){
